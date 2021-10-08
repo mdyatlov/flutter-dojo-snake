@@ -33,6 +33,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static List<int> snakePosition = [45, 65, 85, 105, 125];
   int food = Random().nextInt(700);
+  var duration = const Duration(milliseconds: 300);
+
+  late Timer currentTimer;
+
+  Timer initTimer() {
+    return Timer.periodic(duration, (Timer timer) {
+      updateSnake();
+      if (gameOver()) {
+        timer.cancel();
+        _showGameOverPopup();
+      }
+    });
+  }
+
   var direction = 'down';
 
   void generateNextFood() {
@@ -40,16 +54,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void startGame() {
-    const duration = Duration(milliseconds: 300);
     snakePosition = [45, 65, 85, 105, 125];
+    duration = const Duration(milliseconds: 300);
+    currentTimer = initTimer();
+    createNewTimer();
+  }
 
-    Timer.periodic(duration, (Timer timer) {
+  createNewTimer() {
+    currentTimer.cancel();
+    currentTimer = Timer.periodic(duration, (Timer timer) {
       updateSnake();
       if (gameOver()) {
         timer.cancel();
         _showGameOverPopup();
       }
     });
+  }
+
+  increaseSpeed() {
+    if (duration.inMilliseconds != 50) {
+      duration = Duration(milliseconds: duration.inMilliseconds - 25);
+      createNewTimer();
+    }
   }
 
   bool gameOver() {
@@ -124,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if (snakePosition.last == food) {
         generateNextFood();
+        increaseSpeed();
       } else {
         snakePosition.removeAt(0);
       }
