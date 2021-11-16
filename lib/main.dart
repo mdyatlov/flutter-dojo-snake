@@ -30,10 +30,19 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+const numberOfCubeInWidth = 20;
+
 class _MyHomePageState extends State<MyHomePage> {
   static List<int> snakePosition = [45, 65, 85, 105, 125];
   int food = Random().nextInt(700);
   var duration = const Duration(milliseconds: 300);
+
+  late final width = MediaQuery.of(context).size.width;
+  late final cubeSize = width / numberOfCubeInWidth;
+  late final numberOfCubeInHeight =
+      (MediaQuery.of(context).size.height / cubeSize).round() - 10;
+
+  late final totalNumberOfCube = numberOfCubeInHeight * numberOfCubeInWidth;
 
   late Timer currentTimer;
 
@@ -50,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var direction = 'down';
 
   void generateNextFood() {
-    food = Random().nextInt(700);
+    food = Random().nextInt(totalNumberOfCube);
   }
 
   void startGame() {
@@ -119,29 +128,29 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       switch (direction) {
         case 'down':
-          if (snakePosition.last > 740) {
-            snakePosition.add(snakePosition.last + 20 - 760);
+          if (snakePosition.last > totalNumberOfCube - numberOfCubeInWidth) {
+            snakePosition.add(snakePosition.last + numberOfCubeInWidth - totalNumberOfCube);
           } else {
-            snakePosition.add(snakePosition.last + 20);
+            snakePosition.add(snakePosition.last + numberOfCubeInWidth);
           }
           break;
         case 'up':
-          if (snakePosition.last < 20) {
-            snakePosition.add(snakePosition.last - 20 + 760);
+          if (snakePosition.last < numberOfCubeInWidth) {
+            snakePosition.add(snakePosition.last - numberOfCubeInWidth + totalNumberOfCube);
           } else {
-            snakePosition.add(snakePosition.last - 20);
+            snakePosition.add(snakePosition.last - numberOfCubeInWidth);
           }
           break;
         case 'left':
-          if (snakePosition.last % 20 == 0) {
-            snakePosition.add(snakePosition.last - 1 + 20);
+          if (snakePosition.last % numberOfCubeInWidth == 0) {
+            snakePosition.add(snakePosition.last - 1 + numberOfCubeInWidth);
           } else {
             snakePosition.add(snakePosition.last - 1);
           }
           break;
         case 'right':
-          if ((snakePosition.last + 1) % 20 == 0) {
-            snakePosition.add(snakePosition.last + 1 + 20);
+          if ((snakePosition.last + 1) % numberOfCubeInWidth == 0) {
+            snakePosition.add(snakePosition.last + 1 - numberOfCubeInWidth);
           } else {
             snakePosition.add(snakePosition.last + 1);
           }
@@ -181,9 +190,9 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 760,
+                itemCount: totalNumberOfCube,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 20,
+                  crossAxisCount: numberOfCubeInWidth,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   if (snakePosition.contains(index)) {
@@ -216,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+            padding: const EdgeInsets.only(bottom: 40.0, top: 20.0),
             child: Center(
               child: GestureDetector(
                 onTap: startGame,
