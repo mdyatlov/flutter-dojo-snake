@@ -1,9 +1,16 @@
-# Bienvenue dans le Dojo Snake en Flutter !
+# flutter_dojo_snake
 
-Vous allez réaliser l'original jeu snake en [Flutter](https://flutter.dev/?gclid=CjwKCAjw2P-KBhByEiwADBYWCtIOYB_OONZuVbEwDSWKLQL81hln3zfjbvAYf5WuIfq3p1m5Wi0fqxoCPFkQAvD_BwE&gclsrc=aw.ds) !
+A new Flutter project.
 
-![Screenshot](./docs/snake_screenshot.png)
+## Getting Started
 
-## Commencer
+This project is a starting point for a Flutter application.
 
-Pour commencer ce dojo, suivez les instructions de ce [Trello](https://trello.com/b/3znmgHb8/mobile-dojo-snake-flutter)
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
